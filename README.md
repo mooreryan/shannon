@@ -23,10 +23,12 @@ Or install it yourself as:
 ```ruby
 require "shannon"
 
-Shannon.entropy "aaaa" #=> 0
-Shannon.entropy("abcde").round 4 #=> 2.3219
-Shannon.entropy "" #=> nil
+Shannon::entropy ""               #=> 0
+Shannon::entropy "aaaa"           #=> 0
+Shannon::entropy("abcde").round 4 #=> 2.3219
 ```
+
+It uses base 2 for the log by default, so `Shannon::entropy "abcde"` and `Shannon::entropy "abcde", 2` will give the same answer.
 
 ## Development
 

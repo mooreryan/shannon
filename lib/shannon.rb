@@ -1,31 +1,21 @@
 require "shannon/version"
 
 module Shannon
-  def self.char_counts str
-    counts = Hash.new 0
 
-    str.each_char do |char|
-      counts[char] += 1
-    end
+  # Calculate Shannon entropy for a string.
+  #
+  # @example
+  #   Shannon::entropy("abcde", 2).round(4) #=> 2.3219
+  #
+  # @param str [String] string to calculate entropy of
+  # @param base [Fixnum] base of the log for calculation
+  def self.entropy str, base=2
+    len = str.length.to_f
 
-    counts
-  end
-
-  def self.char_probs str
-    counts = self.char_counts str
-
-    counts.values.map { |count| count / str.length.to_f }
-  end
-
-  def self.probs_to_entropy probs
-    - probs.reduce(0.0) { |sum, prob| sum += prob * Math.log2(prob) }
-  end
-
-  def self.entropy str
-    if str.empty?
-      nil
-    else
-      self.probs_to_entropy self.char_probs(str)
-    end
+    str.each_char.
+      group_by(&:itself).
+      values.
+      map { |ary| ary.length / len }.
+      reduce(0) { |entropy, freq| entropy - freq * Math.log(freq, base) }
   end
 end

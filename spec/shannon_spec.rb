@@ -7,8 +7,8 @@ RSpec.describe Shannon do
 
   describe "::entropy" do
     context "given an empty string" do
-      it "returns nil" do
-        expect(Shannon.entropy "").to be nil
+      it "returns zero" do
+        expect(Shannon.entropy "").to be_zero
       end
     end
 
@@ -19,6 +19,11 @@ RSpec.describe Shannon do
 
       it "returns Shannon entropy for the str" do
         expect(Shannon.entropy "abcde").to be_within(0.0001).of 2.32193
+      end
+
+      it "uses base 2 by default" do
+        expect(Shannon::entropy "abcde").
+          to be_within(0.0001).of Shannon::entropy("abcde", 2)
       end
     end
   end
